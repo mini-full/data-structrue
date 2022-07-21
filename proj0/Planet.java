@@ -38,17 +38,13 @@ public class Planet{
 
     public double calcForceExertedByX(Planet other){
         double distance = calcDistance(other);
-        double cos = Math.abs(this.xxPos - other.xxPos) / distance;
+        double cos = -(this.xxPos - other.xxPos) / distance;
         return this.mass * other.mass * G / (distance * distance) * cos;
     }
 
-    
-
-    
-
     public double calcForceExertedByY(Planet other) {
         double distance = calcDistance(other);
-        double sin = Math.abs(this.yyPos - other.yyPos) / distance;
+        double sin = -(this.yyPos - other.yyPos) / distance;
         return this.mass * other.mass * G / (distance * distance) * sin;
     }
 
@@ -84,6 +80,11 @@ public class Planet{
         // Calculate thenew position
         xxPos += dt * xxVel;
         yyPos += dt * yyVel;
+    }
+
+    public void draw(){
+        String fileName = "images/" + imgFileName;
+        StdDraw.picture(xxPos, yyPos, fileName);
     }
 }
 
