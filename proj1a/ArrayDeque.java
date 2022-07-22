@@ -83,12 +83,9 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (size() == 0 || size() < index || index < 0) {
+        if (size() == 0 || size() <= index || index < 0) {
             return null;
         }
-        if (left + index < capacity) {
-            return a[left + index];
-        }
-        return null;
+        return a[left + index];
     }
 }
