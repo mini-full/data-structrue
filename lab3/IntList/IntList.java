@@ -1,3 +1,5 @@
+import com.sun.java.accessibility.util.GUIInitializedListener;
+
 import java.util.Formatter;
 
 /**
@@ -94,7 +96,23 @@ public class IntList {
         return null;
     }
 
+    public static IntList reverse(IntList A) {
+        IntList frontOfReversed = null;
+        IntList nextNodeToAdd = A;
+        while(nextNodeToAdd != null){
+            IntList remainderOfOriginal = nextNodeToAdd.rest;
+            nextNodeToAdd.rest = frontOfReversed;
+            frontOfReversed = nextNodeToAdd;
+            nextNodeToAdd = remainderOfOriginal;
+        }
+        A = frontOfReversed;
+        return A;
+    }
 
+    public static void main(String[] args) {
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = reverse(A);
+    }
 
 
 
