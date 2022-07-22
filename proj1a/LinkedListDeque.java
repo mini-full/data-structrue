@@ -1,8 +1,8 @@
 public class LinkedListDeque<T> {
     private class Node {
-        public T item;
-        public Node next;
-        public Node prev;
+        private T item;
+        private Node next;
+        private Node prev;
 
         public Node(Node prev, T item, Node next) {
             this.item = item;
