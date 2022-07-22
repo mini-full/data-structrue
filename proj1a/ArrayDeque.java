@@ -24,11 +24,11 @@ public class ArrayDeque<T> {
         if (left == 0) {
             resize(2 * capacity);
         }
-        a[left--] = item;
+        a[--left] = item;
     }
 
     public void addLast(T item) {
-        if ((right - 1) == capacity) {
+        if (right == capacity) {
             resize(2 * capacity);
         }
         a[right++] = item;
@@ -69,6 +69,9 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
+        if (size() < index){
+            return null;
+        }
         return a[left + index];
     }
 }
