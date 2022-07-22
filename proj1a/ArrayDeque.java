@@ -5,8 +5,6 @@ public class ArrayDeque<T> {
     private int right; // a[right] is not accessible
     private int capacity = 8;
 
-    // 目前，addFirst在第一步就无法正常工作。
-
     public ArrayDeque() {
         a = (T[]) new Object[capacity];
         left = right = 3;
@@ -88,6 +86,9 @@ public class ArrayDeque<T> {
         if (size() == 0 || size() < index || index < 0) {
             return null;
         }
-        return a[left + index];
+        if (left + index < capacity) {
+            return a[left + index];
+        }
+        return null;
     }
 }
