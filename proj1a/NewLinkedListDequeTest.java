@@ -60,7 +60,7 @@ public class NewLinkedListDequeTest {
         System.out.println("Printing out deque: ");
         lld.printDeque();
 
-        // passed = checkSize(true, lld.get(0).equals(lld.getRecursive(0))) && passed;
+        passed = checkSize(true, lld.get(0).equals(lld.getRecursive(0))) && passed;
         System.out.println(lld.get(1));
 
         printTestStatus(passed);
