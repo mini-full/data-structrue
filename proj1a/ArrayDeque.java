@@ -5,6 +5,8 @@ public class ArrayDeque<T> {
     private int right; // a[right] is not accessible
     private int capacity = 8;
 
+    // 目前，addFirst在第一步就无法正常工作。
+
     public ArrayDeque() {
         T[] a = (T[]) new Object[capacity];
         left = right = 3;
@@ -20,11 +22,19 @@ public class ArrayDeque<T> {
         capacity = newCapacity;
     }
 
+    private boolean isLowUsageRate() {
+        return capacity >= 16 && size() / (double) capacity < 0.25;
+    }
+
     public void addFirst(T item) {
-        if (left == 0) {
-            resize(2 * capacity);
+        if (isEmpty()) {
+            a[right++] = item;
+        } else {
+            if (left == 0) {
+                resize(2 * capacity);
+            }
+            a[--left] = item;
         }
-        a[--left] = item;
     }
 
     public void addLast(T item) {
@@ -55,6 +65,9 @@ public class ArrayDeque<T> {
         T ret = a[right - 1];
         a[right - 1] = null; // avoid loitering
         right--;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
         return ret;
     }
 
@@ -65,11 +78,14 @@ public class ArrayDeque<T> {
         T ret = a[left];
         a[left] = null;
         left++;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
         return ret;
     }
 
     public T get(int index) {
-        if (size() < index) {
+        if (size() == 0 || size() < index || index < 0) {
             return null;
         }
         return a[left + index];
