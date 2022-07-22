@@ -8,7 +8,7 @@ public class ArrayDeque<T> {
     // 目前，addFirst在第一步就无法正常工作。
 
     public ArrayDeque() {
-        T[] a = (T[]) new Object[capacity];
+        a = (T[]) new Object[capacity];
         left = right = 3;
     }
 
