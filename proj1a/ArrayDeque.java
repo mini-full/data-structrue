@@ -25,17 +25,23 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (right == capacity || left == 0){
+        if (right == capacity || left == 0) {
             resize(2 * capacity);
         }
         a[--left] = item;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
     }
 
     public void addLast(T item) {
         if (right == capacity) {
             resize(2 * capacity);
         }
-        a[right++] = item;
+        this.a[right++] = item;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
     }
 
     public boolean isEmpty() {
