@@ -25,14 +25,10 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (isEmpty()) {
-            a[right++] = item;
-        } else {
-            if (left == 0) {
-                resize(2 * capacity);
-            }
-            a[--left] = item;
+        if (right == capacity || left == 0){
+            resize(2 * capacity);
         }
+        a[--left] = item;
     }
 
     public void addLast(T item) {
