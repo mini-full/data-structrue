@@ -7,7 +7,7 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         a = (T[]) new Object[capacity];
-        left = right = 3;
+        left = right = 0;
     }
 
     private void resize(int newCapacity) {
