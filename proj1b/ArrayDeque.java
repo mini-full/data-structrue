@@ -1,0 +1,102 @@
+public class ArrayDeque<T> implements Deque<T> {
+
+    private T[] a;
+    private int left; // a[left] is accessible
+    private int right; // a[right] is not accessible
+    private int capacity = 8;
+
+    @Override
+    public ArrayDeque() {
+        a = (T[]) new Object[capacity];
+        left = right = 3;
+    }
+
+    private void resize(int newCapacity) {
+        T[] newArray = (T[]) new Object[newCapacity];
+        int length = right - left;
+        System.arraycopy(this.a, this.left, newArray, newCapacity / 4, length);
+        left = newCapacity / 4;
+        right = left + length;
+        a = newArray;
+        capacity = newCapacity;
+    }
+
+    private boolean isLowUsageRate() {
+        return capacity >= 16 && size() / (double) capacity < 0.25;
+    }
+
+    @Override
+    public void addFirst(T item) {
+        if (right == capacity || left == 0) {
+            resize(2 * capacity);
+        }
+        a[--left] = item;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
+    }
+
+    @Override
+    public void addLast(T item) {
+        if (right == capacity) {
+            resize(2 * capacity);
+        }
+        this.a[right++] = item;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return right == left;
+    }
+
+    @Override
+    public int size() {
+        return right - left;
+    }
+
+    @Override
+    public void printDeque() {
+        for (int i = left; i < right; i++) {
+            System.out.print(a[i] + " ");
+        }
+    }
+
+    @Override
+    public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
+        T ret = a[right - 1];
+        a[right - 1] = null; // avoid loitering
+        right--;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
+        return ret;
+    }
+
+    @Override
+    public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        T ret = a[left];
+        a[left] = null;
+        left++;
+        if (isLowUsageRate()) {
+            resize((int) (capacity * 0.5));
+        }
+        return ret;
+    }
+
+    @Override
+    public T get(int index) {
+        if (size() == 0 || size() <= index || index < 0) {
+            return null;
+        }
+        return a[left + index];
+    }
+}
