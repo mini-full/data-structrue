@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 public class TestOffByOne {
 
-    static OffByOne offby1 = new OffByOne();
+    static CharacterComparator offby1 = new OffByOne();
 
     @Test
     public void testOffByOne() {
