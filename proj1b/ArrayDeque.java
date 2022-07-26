@@ -5,7 +5,6 @@ public class ArrayDeque<T> implements Deque<T> {
     private int right; // a[right] is not accessible
     private int capacity = 8;
 
-    @Override
     public ArrayDeque() {
         a = (T[]) new Object[capacity];
         left = right = 3;
