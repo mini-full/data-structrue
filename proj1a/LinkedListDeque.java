@@ -99,23 +99,4 @@ public class LinkedListDeque<T> {
         }
     }
 
-    /* This codes below serve as my test. */
-    // public static void main(String[] args) {
-    // LinkedListDeque t = new LinkedListDeque();
-    // if (t.isEmpty()){
-    // System.out.println("here");
-    // }else{
-    // System.out.println("there");
-    // }
-    // t.addLast(3);
-    // t.addLast(2);
-    // t.addLast(1);
-    // t.printDeque();
-    // if (t.isEmpty()){
-    // System.out.println("here");
-    // }else{
-    // System.out.println("there");
-    // }
-    // System.out.println(t.get(2));
-    // }
 }
