@@ -23,7 +23,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         // this.capacity should be set appropriately. Note that the local variable
         // here shadows the field we inherit from AbstractBoundedQueue, so
         // you'll need to use this.capacity to set the capacity.
-        rb = (T) new Object[capacity];
+        rb = (T[]) new Object[capacity];
         first = 0;
         this.capacity = capacity;
         last = 0;
@@ -80,6 +80,39 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         // DONE: Return the first item. None of your instance variables should change.
     }
 
+    // DONE: When you get to part 5, implement the needed code to support iteration.
+    /* Return an iterator that iterates over the items in the buffer. */
+    @Override
+    public Iterator<T> iterator() {
+        return new BufferIterator();
+    }
 
-    // TODO: When you get to part 5, implement the needed code to support iteration.
+    private class BufferIterator implements Iterator<T> {
+        private int pos;
+        private int num;
+
+        BufferIterator() {
+            pos = first;
+            num = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return num < fillCount;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new RuntimeException("No more items in the buffer");
+            }
+            T ret = rb[pos];
+            pos++;
+            if (pos >= capacity) {
+                pos -= capacity;
+            }
+            num++;
+            return ret;
+        }
+    }
 }
