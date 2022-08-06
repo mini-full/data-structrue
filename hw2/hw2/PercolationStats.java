@@ -22,7 +22,6 @@ public class PercolationStats {
                 do {
                     x = StdRandom.uniform(N);
                     y = StdRandom.uniform(N);
-
                 } while (percolation.isOpen(x, y));
                 percolation.open(x, y);
 
@@ -44,6 +43,6 @@ public class PercolationStats {
     }
 
     public double confidenceHigh() {
-        return 2*mean() - confidenceLow();
+        return 2 * mean() - confidenceLow();
     }
 }
