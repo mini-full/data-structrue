@@ -2,8 +2,6 @@ package hw2;
 
 import edu.princeton.cs.introcs.StdRandom;
 import edu.princeton.cs.introcs.StdStats;
-import java.util.function.ToLongBiFunction;
-import javax.swing.text.StyledDocument;
 
 public class PercolationStats {
     private int T;
