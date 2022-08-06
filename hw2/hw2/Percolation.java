@@ -3,7 +3,6 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-
     private final int N;
     private int openSites;
     private WeightedQuickUnionUF sites;
@@ -25,11 +24,9 @@ public class Percolation {
         TopConnected = new boolean[N * N];
         BottomConnected = new boolean[N * N];
         for (int i = 0; i < N; i++) {
-            sites.union(0, i);
             TopConnected[i] = true;
         }
         for (int i = 0; i < N; i++) {
-            sites.union(N * N - 1, N * N - 1 - i);
             BottomConnected[N * N - 1 - i] = true;
         }
         for (int i = 0; i < N; i++) {
@@ -47,41 +44,42 @@ public class Percolation {
         int dst = xyTo1D(row1, col1);
         if (isOpen(row, col) && isOpen(row1, col1)) {
             sites.union(src, dst);
-            if (TopConnected[dst] || TopConnected[src]) {
-                TopConnected[dst] = TopConnected[src] = true;
+            if (TopConnected[sites.find(dst)] || TopConnected[sites.find(src)] || TopConnected[dst]
+                    || TopConnected[src]) {
+                TopConnected[sites.find(dst)] = TopConnected[sites.find(src)] = true;
             }
-            if (BottomConnected[dst] || BottomConnected[src]) {
-                BottomConnected[dst] = BottomConnected[src] = true;
+            if (BottomConnected[sites.find(dst)] || BottomConnected[sites.find(src)] || BottomConnected[dst]
+                    || BottomConnected[src]) {
+                BottomConnected[sites.find(dst)] = BottomConnected[sites.find(src)] = true;
             }
         }
     }
 
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
-        validate(row, col);
-        open[xyTo1D(row, col)] = true;
-        openSites++;
-        if (row == 0) {
-            TopConnected[xyTo1D(row, col)] = true;
-        } else if (row == N - 1) {
-            BottomConnected[xyTo1D(row, col)] = true;
+        if (!isOpen(row, col)) {
+            validate(row, col);
+            open[xyTo1D(row, col)] = true;
+            openSites++;
+            if (row == 0) {
+                TopConnected[xyTo1D(row, col)] = true;
+            } else if (row == N - 1) {
+                BottomConnected[xyTo1D(row, col)] = true;
+            }
+            if (row > 0 && open[xyTo1D(row - 1, col)]) {
+                connect(row, col, row - 1, col);
+            }
+            if (row < N - 1 && open[xyTo1D(row + 1, col)]) {
+                connect(row, col, row + 1, col);
+            }
+            if (col > 0 && open[xyTo1D(row, col - 1)]) {
+                connect(row, col, row, col - 1);
+            }
+            if (col < N - 1 && open[xyTo1D(row, col + 1)]) {
+                connect(row, col, row, col + 1);
+            }
         }
-        if (row > 0 && open[xyTo1D(row - 1, col)]) {
-            connect(row, col, row - 1, col);
-        }
-        if (row < N - 1 && open[xyTo1D(row + 1, col)]) {
-            connect(row, col, row + 1, col);
-        }
-        if (col > 0 && open[xyTo1D(row, col - 1)]) {
-            connect(row, col, row, col - 1);
-        }
-        if (col < N - 1 && open[xyTo1D(row, col + 1)]) {
-            connect(row, col, row, col + 1);
-        }
-
     }
-
-    // private boolean checkIf
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
@@ -98,7 +96,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         validate(row, col);
-        return TopConnected[xyTo1D(row, col)];
+        return TopConnected[sites.find(xyTo1D(row, col))] && open[xyTo1D(row, col)];
     }
 
     // number of open sites
@@ -108,8 +106,9 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        for (int i = 0; i < N * N; i++) {
-            if (BottomConnected[i] && TopConnected[i]) {
+        for (int i = 0; i < N; i++) {
+            int tar = sites.find(i);
+            if (BottomConnected[tar]) {
                 return true;
             }
         }
