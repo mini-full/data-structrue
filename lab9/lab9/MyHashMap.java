@@ -2,6 +2,7 @@ package lab9;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator;
 
 /**
  * A hash table-backed Map implementation. Provides amortized constant time
@@ -72,6 +73,19 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         } else {
             buckets[hashvalue].put(key, value);
             size++;
+        }
+    }
+
+    private void resize(int length) {
+        ArrayMap<K, V>[] oldBuckets = buckets;
+        int oldSize = size;
+        buckets = new ArrayMap[length];
+        clear();
+        size = oldSize;
+        for (int i = 0; i < oldBuckets.length; i++) {
+            for (K key : oldBuckets[i]) {
+                buckets[hash(key)].put(key, oldBuckets[i].get(key));
+            }
         }
     }
 
