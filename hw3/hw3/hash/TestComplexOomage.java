@@ -2,8 +2,6 @@ package hw3.hash;
 
 import org.junit.Test;
 
-import javax.lang.model.type.IntersectionType;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
