@@ -1,8 +1,6 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.util.NoSuchElementException;
-
 /**
  * A Generic heap class. Unlike Java's priority queue, this heap doesn't just
  * store Comparable objects. Instead, it can store any type of object
@@ -223,16 +221,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* Find the node with the given item. */
-        int index = 1;
-        while (index <= size && !contents[index].item().equals(item)) {
-            index++;
+        for (int i = 1; i <= size; i++) {
+            if (contents[i].myItem.equals(item)) {
+                if (priority > contents[i].myPriority) {
+                    contents[i].myPriority = priority;
+                    sink(i);
+                } else {
+                    contents[i].myPriority = priority;
+                    swim(i);
+                }
+            }
         }
-        if (size < 1 || index > size) {
-            return;
-        }
-
-        getNode(index).myPriority = priority;
     }
 
     /**
