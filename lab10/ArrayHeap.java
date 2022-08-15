@@ -193,6 +193,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         T ret = peek();
         swap(1, size);
         contents[size--] = null;
+        if (size == 0) {
+            return ret;
+        }
         sink(1);
 
         /* Resize the array when necessary. */
