@@ -67,7 +67,7 @@ public class Solver {
                     path.push(n.state);
                 }
                 while (!path.isEmpty()) {
-                    solution.add(path.pop());
+                    solutions.add(path.pop());
                 }
                 break;
             }
