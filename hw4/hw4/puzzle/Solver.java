@@ -61,10 +61,12 @@ public class Solver {
         while (!pq.isEmpty()) {
             currentNode = pq.delMin();
             if (currentNode.state.isGoal()) {
-                solutions.add(currentNode.state);
-                while (currentNode.prev != null) {
-                    currentNode = currentNode.prev;
-                    solutions.add(currentNode.state);
+                Stack<WorldState> path = new Stack<>();
+                for (SearchNode n = currentNode; n != null; n = n.prev) {
+                    path.push(n.state);
+                }
+                while (!path.isEmpty()) {
+                    solution.add(path.pop());
                 }
                 break;
             }
